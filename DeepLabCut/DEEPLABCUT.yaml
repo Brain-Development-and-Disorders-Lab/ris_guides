@@ -1,0 +1,22 @@
+# DEEPLABCUT.yaml
+# Adapted from original configuration: https://github.com/DeepLabCut/DeepLabCut
+# Adds `cuda-nvcc` dependency to fix TensorFlow "CUDA_ERROR_INVALID_IMAGE: device kernel image is invalid" error
+
+# Installation: conda env create -f DEEPLABCUT.yaml
+# Update:  conda env update -f DEEPLABCUT.yaml
+name: DEEPLABCUT
+channels:
+  - conda-forge
+  - defaults
+  - nvidia
+dependencies:
+  - python=3.9
+  - pip
+  - ipython
+  - jupyter
+  - nb_conda
+  - notebook<7.0.0
+  - ffmpeg
+  - pip:
+    - "deeplabcut[gui,tf]"
+  - nvidia/label/cuda-11.6.2::cuda-nvcc

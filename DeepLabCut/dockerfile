@@ -1,10 +1,16 @@
+# Adapted from: https://github.com/rob-the-bot/washu_hpc
 FROM nvidia/cuda:11.6.2-cudnn8-runtime-ubuntu20.04
-# Choosing the noninteractive mode to avoid all the input during docker image build
+
+# Enable non-interactive mode
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt update
-# install compilers and stuff for opencv
+
+# Fix issue: GLIBCXX_3.4.29 not installed, https://askubuntu.com/a/1463012
+RUN apt install -y software-properties-common
+RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test
+RUN apt install -y g++-11
+
+# Install required compilers and tools for DeepLabCut requirements
 RUN apt install -y build-essential libgl1 libgl1-mesa-glx libxcursor1 libglib2.0-dev
 RUN apt install -y htop vim nano tmux git rsync wget
-# https://github.com/DeepLabCut/DeepLabCut/issues/2167
-RUN apt install libc6
