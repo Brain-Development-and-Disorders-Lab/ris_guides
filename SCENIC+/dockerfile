@@ -1,7 +1,5 @@
 # Use Python 3.8
-FROM python:3.8-slim AS compile-image
-RUN python -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
+FROM python:3.8
 
 # Install dependencies
 RUN apt update && apt install -y \
@@ -16,12 +14,7 @@ RUN apt update && apt install -y \
       rsync \
       wget
 
-# Install SCENIC+
-# Bravo Gonzalez-Blas, C. & De Winter, S. et al. (2022).
-# SCENIC+: single-cell multiomic inference of enhancers and gene regulatory networks
-RUN git clone https://github.com/aertslab/scenicplus && \
-    cd scenicplus && \
-    pip install -e .
-
-# Install Jupyter Notebook
-RUN pip install notebook
+# Install SCENIC+ & Jupyter Notebook
+RUN pip3 install git+https://github.com/aertslab/scenicplus && \
+    pip3 install jupyterlab && \
+    pip3 install notebook
