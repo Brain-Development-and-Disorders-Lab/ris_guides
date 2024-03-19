@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use these Docker images, please cite it as below."
+authors:
+- family-names: "Burgess"
+  given-names: "Henry"
+  orcid: "https://orcid.org/0000-0002-3481-952X"
+title: "<Name of Docker image>"
+version: 1.7.0
+date-released: 2023-11-20
+url: "https://github.com/Brain-Development-and-Disorders-Lab/ris_docker"
