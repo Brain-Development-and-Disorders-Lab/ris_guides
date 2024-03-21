@@ -10,6 +10,6 @@
 
 3. Run any setup prior to starting the Jupyter Notebook instance.
 
-4. Start a Jupyter Notebook instance: `jupyter notebook --ip=0.0.0.0 --NotebookApp.allow_origin=*`
+4. Start a Jupyter Notebook instance: `jupyter notebook --ip=0.0.0.0 --NotebookApp.allow_origin=* --port=8888`
 
 5. Access the Jupyter Notebook instance via a web browser at the following URL: `http://compute1-exec-nn.ris.wustl.edu:8888/?token=<48-character token>`. The actual token is contained in the output from step 4.
