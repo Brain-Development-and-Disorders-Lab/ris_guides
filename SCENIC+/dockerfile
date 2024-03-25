@@ -1,5 +1,5 @@
-# Use Python 3.8
-FROM python:3.8
+# Use Python 3.11
+FROM python:3.11
 
 # Install dependencies
 RUN apt update && apt install -y \
@@ -15,6 +15,6 @@ RUN apt update && apt install -y \
       wget
 
 # Install SCENIC+ & Jupyter Notebook
-RUN pip3 install git+https://github.com/aertslab/scenicplus && \
+RUN pip3 install git+https://github.com/aertslab/scenicplus@development && \
     pip3 install jupyterlab && \
     pip3 install notebook
