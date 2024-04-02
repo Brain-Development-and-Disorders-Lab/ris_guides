@@ -1,20 +1,45 @@
 # Use Python 3.11
-FROM python:3.11
+FROM python:3.11-slim-bookworm
 
 # Install dependencies
-RUN apt update && apt install -y \
-      g++-11 \
-      zlib1g-dev \
-      build-essential \
-      htop \
-      vim \
-      nano \
-      tmux \
-      git \
-      rsync \
-      wget
+RUN mkdir -p /usr/share/man/man1 /usr/share/man/man2 \
+      && apt update \
+      && apt install -y \
+            software-properties-common \
+            ant \
+            g++-11 \
+            zlib1g-dev \
+            libcurl4-openssl-dev \
+            zlib1g-dev \
+            libfftw3-dev \
+            libc++-dev \
+            hdf5-tools \
+            python3-launchpadlib \
+            build-essential \
+            procps \
+            less \
+            htop \
+            vim \
+            nano \
+            tmux \
+            git \
+            rsync \
+            wget \
+      && add-apt-repository ppa:openjdk-r/ppa \
+      && apt update \
+      && apt install -y \
+            default-jre \
+            default-jdk
+
+# Install Mallet
+RUN git clone --depth=1 https://github.com/mimno/Mallet.git /tmp/Mallet && \
+    cd /tmp/Mallet && \
+    ant && \
+    cp -r /tmp/Mallet /opt/mallet/
 
 # Install SCENIC+ & Jupyter Notebook
 RUN pip3 install git+https://github.com/aertslab/scenicplus@development && \
-    pip3 install jupyterlab && \
-    pip3 install notebook
+    pip3 --no-cache-dir install jupyterlab && \
+    pip3 --no-cache-dir install notebook
+
+ENV PATH="/opt/mallet/bin:$PATH"
