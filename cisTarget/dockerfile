@@ -1,5 +1,5 @@
-# Use Conda rather than Python
-FROM continuumio/miniconda3
+# Use Ubuntu 22.04
+FROM ubuntu:22.04
 
 # Install software
 RUN apt-get update && \
@@ -24,10 +24,20 @@ RUN apt-get update && \
       rsync \
       wget
 
-# Clone repo and create Conda environment
+# Install Miniconda3 (Python 3.10)
+RUN wget -nv https://repo.anaconda.com/miniconda/Miniconda3-py310_23.10.0-1-Linux-x86_64.sh -O ~/miniconda.sh && \
+    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
+    rm ~/miniconda.sh && \
+    /opt/conda/bin/conda clean -tipy && \
+    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh
+
+# Add the conda executable directory to PATH
+ENV PATH /opt/conda/bin:$PATH
+
+# Clone repo, create and activate Conda environment
 RUN git clone https://github.com/aertslab/create_cisTarget_databases && \
-    cd create_cisTarget_databases \
-    conda create -y -n create_cistarget_databases && \
+    cd create_cisTarget_databases
+RUN conda create -n create_cistarget_databases && \
     conda install -y \
       "python=3.10" \
       "numpy=1.21" \
@@ -35,11 +45,18 @@ RUN git clone https://github.com/aertslab/create_cisTarget_databases && \
       "pyarrow>=7.0.0" \
       "numba>=0.55.1" \
       "python-flatbuffers"
+RUN echo "source activate create_cistarget_databases" > ~/.bashrc
 
 # Install Cluster-Buster
-# RUN echo "source activate create_cistarget_databases" > ~/.bashrc
-# ENV PATH /opt/conda/envs/create_cistarget_databases/bin:$PATH
-# RUN conda activate create_cistarget_databases
-SHELL ["conda", "run", "-n", "create_cistarget_databases", "/bin/bash", "-c"]
 RUN cd "${CONDA_PREFIX}/bin" && \
-    wget https://resources.aertslab.org/cistarget/programs/cbust
+    wget https://resources.aertslab.org/cistarget/programs/cbust && \
+    chmod a+x cbust
+
+# Install UCSC tools
+RUN cd "${CONDA_PREFIX}/bin" && \
+    wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/liftOver && \
+    wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/bigWigAverageOverBed && \
+    chmod a+x liftOver bigWigAverageOverBed
+
+# Add the conda environment to PATH
+ENV PATH /opt/conda/envs/create_cistarget_databases/bin:$PATH
