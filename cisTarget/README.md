@@ -1,6 +1,6 @@
 # cisTarget
 
-> This Docker container allows you to create cisTarget databases.
+> ℹ️ Docker image for the [create_cisTarget_databases](https://github.com/aertslab/create_cisTarget_databases) repository.
 
 ## Usage
 
