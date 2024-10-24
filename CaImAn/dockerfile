@@ -1,0 +1,48 @@
+# Use Ubuntu 22.04
+FROM --platform=linux/amd64 ubuntu:22.04
+
+# Install software
+RUN apt-get update && \
+    apt-get install -y \
+      software-properties-common \
+      g++-11 \
+      zlib1g-dev \
+      libcurl4-openssl-dev \
+      zlib1g-dev \
+      libfftw3-dev \
+      libc++-dev \
+      hdf5-tools \
+      python3-launchpadlib \
+      build-essential \
+      procps \
+      less \
+      htop \
+      vim \
+      nano \
+      tmux \
+      git \
+      rsync \
+      wget
+
+# Install Miniconda3 (Python 3.10)
+RUN wget -nv https://repo.anaconda.com/miniconda/Miniconda3-py310_23.10.0-1-Linux-x86_64.sh -O ~/miniconda.sh && \
+    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
+    rm ~/miniconda.sh && \
+    /opt/conda/bin/conda clean -tipy && \
+    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh
+
+# Add the conda executable directory to PATH
+ENV PATH /opt/conda/bin:$PATH
+
+# Install mamba 1.5.8 (https://github.com/conda/conda-libmamba-solver/issues/540), then CaImAn
+RUN conda install -n base -c conda-forge mamba==1.5.8 && \
+    mamba create -n caiman -c conda-forge caiman
+
+# Add the conda environment to PATH
+ENV PATH /opt/conda/envs/caiman/bin:$PATH
+
+# Setup the conda environment and install dependencies
+RUN conda init bash && \
+    . ~/.bashrc && \
+    conda activate caiman && \
+    conda install cython openpyxl statsmodels pycircstat nodejs mscorefonts
