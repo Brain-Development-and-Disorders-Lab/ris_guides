@@ -12,7 +12,7 @@
 
 4. Activate the Anaconda environment: `conda activate caiman`
 
-5. Start a Jupyter Notebook instance: `jupyter notebook --ip=0.0.0.0 --NotebookApp.allow_origin=* --port=8888`
+5. Change into the `STORAGE1` directory `cd $STORAGE1` (optional), and start a Jupyter Notebook instance: `jupyter notebook --ip=0.0.0.0 --NotebookApp.allow_origin=* --port=8888`
 
 6. Access the Jupyter Notebook instance via a web browser at the following URL: `http://compute1-exec-nn.ris.wustl.edu:8888/?token=<48-character token>`. The actual token is contained in the output from step 5.
 
