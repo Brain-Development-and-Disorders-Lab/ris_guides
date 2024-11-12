@@ -45,4 +45,4 @@ ENV PATH /opt/conda/envs/caiman/bin:$PATH
 RUN conda init bash && \
     . ~/.bashrc && \
     conda activate caiman && \
-    conda install cython openpyxl statsmodels pycircstat nodejs mscorefonts
+    conda install cython openpyxl statsmodels pycircstat nodejs mscorefonts tifffile tqdm

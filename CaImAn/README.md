@@ -8,7 +8,7 @@
 
 2. Export any storage required for accessing data during the job (Note: This example makes the `HOME`, `STORAGE1`, and `CAIMAN_DATA` paths available during the job): `export STORAGE1=/storage1/fs1/<RIS directory>`, `export CAIMAN_DATA=/storage1/fs1/<Temporary file directory>`, `export LSF_DOCKER_VOLUMES="$HOME:$HOME $STORAGE1:$STORAGE1 $CAIMAN_DATA:$CAIMAN_DATA"`
 
-3. Start the job (Note: This configuration uses 64GB of RAM, and 16 vCPUs by default): `bsub -R "rusage[mem=64GB]" -R "select[port8888=1]" -n 16 -Is -q general-interactive -a 'docker(henryburgess/caiman:1.0)' /bin/bash`
+3. Start the job (Note: This configuration uses 64GB of RAM, and 16 vCPUs by default): `bsub -R "rusage[mem=64GB]" -R "select[port8888=1]" -n 16 -Is -q general-interactive -a 'docker(henryburgess/caiman:latest)' /bin/bash`
 
 4. Activate the Anaconda environment: `conda activate caiman`
 
