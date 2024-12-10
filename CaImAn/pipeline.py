@@ -103,7 +103,7 @@ def run_pipeline(file_path, file_name):
 
   # Test file access
   with open(movie_path) as file:
-      logger.info("Source movie file: %s", file.name)
+    logger.info("Source movie file: %s", file.name)
 
   # general dataset-dependent parameters
   fr = 15                     # imaging rate in frames per second
