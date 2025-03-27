@@ -4,7 +4,7 @@
 
 [RClone](https://rclone.org/) is a command-line tool that can be used to copy files between different cloud storage applications.
 
-### Installation
+### `rclone` Installation
 
 Review the installation documentation [here](https://rclone.org/install/), but the general steps are as follows:
 
@@ -12,7 +12,7 @@ Review the installation documentation [here](https://rclone.org/install/), but t
 * **Linux**: Install a pre-compiled version using the steps [here](https://rclone.org/install/#linux).
 * **Windows**: Download a pre-compiled version from the page [here](https://rclone.org/install/#windows-precompiled).
 
-### Setup
+### `rclone` Setup
 
 After installing the `rclone` application, run the following command to configure a "remote":
 
@@ -135,7 +135,7 @@ If successful, a list of all directories in your Box account should appear simil
   -1 2025-03-19 13:48:36        -1 Talks
 ```
 
-### Usage
+### `rclone` Usage
 
 > [!WARNING]
 > During transfers to mounted network drives, the host PC connection must remain active, otherwise the transfer will fail.
@@ -149,8 +149,79 @@ Where:
 * Replace `<Source Directory>` with the path to the folder on Box, formatted : `Documents/folder_a/folder_b` etc.
 * Replace `<Destination Directory>` with the path to the mounted network shared drive.
 
-Example:
+### `rclone` Examples
 
-`rclone copy Box:Documents/RClone_Test /Volumes/first.last.projects/Active/User/RClone_Test -v`
+1. Copy directory contents from Box to a mounted RIS directory:
 
-Note: The `-v` option shows "verbose" output during the transfer to keep up with progress.
+    `rclone copy Box:Documents/RClone_Test /Volumes/first.last.projects/Active/User/RClone_Test -v`
+
+    *Note:* The `-v` option shows "verbose" output during the transfer to keep up with progress.
+
+## Using `rsync`
+
+[rsync](https://rsync.samba.org/) is a fast and versatile command-line tool for efficiently transferring and synchronizing files between directories or across networks.
+
+### `rsync` Installation
+
+Review the installation documentation [here](https://rsync.samba.org/), but the general steps are as follows:
+
+* **MacOS**: Install via Brew (`brew install rsync`), or it comes pre-installed on most versions
+* **Linux**: Install via package manager:
+  * Ubuntu/Debian: `sudo apt-get install rsync`
+  * Fedora: `sudo dnf install rsync`
+  * CentOS/RHEL: `sudo yum install rsync`
+* **Windows**: Install via:
+  * WSL (Windows Subsystem for Linux): Use the Linux instructions above
+  * Cygwin: Install through the Cygwin installer
+  * Git Bash: Comes pre-installed
+
+### `rsync` Usage
+
+The basic syntax for `rsync` is:
+
+`rsync [options] source destination`
+
+Common options include:
+
+* `-a`: Archive mode (recursive, preserve permissions, etc.)
+* `-v`: Verbose output
+* `-z`: Compress during transfer
+* `--progress`: Show progress during transfer
+* `--delete`: Remove files in destination that don't exist in source
+* `--exclude`: Skip files matching pattern
+
+> [!WARNING]
+> Be careful with the `--delete` option as it will remove files in the destination that don't exist in the source. Always verify your paths and options before running rsync commands.
+
+### `rsync` Examples
+
+1. Local directory sync:
+
+    ```bash
+    rsync -avz /path/to/source/ /path/to/destination/
+    ```
+
+2. Remote sync over SSH:
+
+    ```bash
+    rsync -avz user@remote:/path/to/source/ /path/to/destination/
+    ```
+
+3. Sync with progress and exclude certain files:
+
+    ```bash
+    rsync -avz --progress --exclude '*.tmp' /path/to/source/ /path/to/destination/
+    ```
+
+4. Two-way sync (mirror):
+
+    ```bash
+    rsync -avz --delete /path/to/source/ /path/to/destination/
+    ```
+
+> [!NOTE]
+> The trailing slash in source paths is important:
+>
+> * With trailing slash: contents of the directory are copied
+> * Without trailing slash: the directory itself is copied
+>
