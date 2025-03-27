@@ -195,28 +195,22 @@ Common options include:
 
 ### `rsync` Examples
 
-1. Local directory sync:
+1. Copy and sync local directories:
 
     ```bash
-    rsync -avz /path/to/source/ /path/to/destination/
+    rsync -vz /path/to/source/ /path/to/destination/
     ```
 
-2. Remote sync over SSH:
+2. Copy and sync remote directory to local destination over SSH:
 
     ```bash
-    rsync -avz user@remote:/path/to/source/ /path/to/destination/
+    rsync -vz user@remote:/path/to/source/ /path/to/destination/
     ```
 
-3. Sync with progress and exclude certain files:
+3. Copy and sync local directories showing progress and exclude files with `.tmp` extension:
 
     ```bash
-    rsync -avz --progress --exclude '*.tmp' /path/to/source/ /path/to/destination/
-    ```
-
-4. Two-way sync (mirror):
-
-    ```bash
-    rsync -avz --delete /path/to/source/ /path/to/destination/
+    rsync -vz --progress --exclude '*.tmp' /path/to/source/ /path/to/destination/
     ```
 
 > [!NOTE]
